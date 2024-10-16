@@ -43,11 +43,13 @@ public class MainView extends JFrame {
 
         logOutButton.addActionListener(this::logOut);
         movieTable.getSelectionModel().addListSelectionListener(this::showDetailOnClick);
-        addMovieButton.addActionListener( _ -> {
-            AddMovieView amv = new AddMovieView();
-            dispose();
-            amv.setVisible(true);
-        });
+        addMovieButton.addActionListener( _ -> goToMovieDetail());
+    }
+
+    private void goToMovieDetail() {
+        AddMovieView amv = new AddMovieView();
+        dispose();
+        amv.setVisible(true);
     }
 
     private void logOut(ActionEvent actionEvent) {

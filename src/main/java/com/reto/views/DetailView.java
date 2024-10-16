@@ -30,29 +30,33 @@ public class DetailView extends JFrame {
         setLocationRelativeTo(null);
 
         setLabelsWithInfo(Session.movieSelected);
-        backButton.addActionListener( _ -> {
-            MainView backToMain = new MainView();
-            Session.movieSelected = null;
+        backButton.addActionListener( _ -> backToMainView());
+        delete.addActionListener( _ -> deleteMovieProcess());
+    }
+
+    private void backToMainView() {
+        MainView backToMain = new MainView();
+        Session.movieSelected = null;
+        dispose();
+        backToMain.setVisible(true);
+    }
+
+    private void deleteMovieProcess() {
+        MovieDTO dto = Session.movieSelected;
+        Integer copyID = mcDao.findSpecificCopy(Session.userSelected, dto);
+        MovieCopy movieCopy = new MovieCopy(
+                copyID,
+                dto.getMovie().getId(),
+                Session.userSelected.getId(),
+                dto.getMovieCondition(),
+                dto.getPlatform()
+        );
+        if(mcDao.delete(movieCopy)) {
+            MainView mv = new MainView();
             dispose();
-            backToMain.setVisible(true);
-        });
-        delete.addActionListener( _ -> {
-            MovieDTO dto = Session.movieSelected;
-            Integer copyID = mcDao.findSpecificCopy(Session.userSelected, dto);
-            MovieCopy movieCopy = new MovieCopy(
-                    copyID,
-                    dto.getMovie().getId(),
-                    Session.userSelected.getId(),
-                    dto.getMovieCondition(),
-                    dto.getPlatform()
-            );
-            if(mcDao.delete(movieCopy)) {
-                MainView mv = new MainView();
-                dispose();
-                mv.setVisible(true);
-            } else
-                JOptionPane.showMessageDialog(rootPanel, "Error deleting the copy!", "Error", JOptionPane.ERROR_MESSAGE);
-        });
+            mv.setVisible(true);
+        } else
+            JOptionPane.showMessageDialog(rootPanel, "Error deleting the copy!", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     private void setLabelsWithInfo(MovieDTO movieDTO) {

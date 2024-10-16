@@ -27,18 +27,19 @@ public class LoginView extends JFrame {
         userInput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         passInput.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-
         setContentPane(rootPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(500, 500);
         setLocationRelativeTo(null);
 
         loginBtn.addActionListener( _ -> loginProcess(dao));
-        registerBtn.addActionListener( _ -> {
-            RegisterFormView registerForm = new RegisterFormView();
-            dispose();
-            registerForm.setVisible(true);
-        });
+        registerBtn.addActionListener( _ -> registerUser());
+    }
+
+    private void registerUser() {
+        RegisterFormView registerForm = new RegisterFormView();
+        dispose();
+        registerForm.setVisible(true);
     }
 
     private void loginProcess(UserDAO dao) {
