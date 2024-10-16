@@ -7,6 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Clase a utilizar para mostrar los datos específicos de una película
+ * y de una copia en la tabla del usuario.
+ * @author Alberto Guzman Moreno
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

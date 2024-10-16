@@ -6,6 +6,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Objeto que representa la conexion a la base de datos,
+ * connexion estatica con getter, e inicializacion de los campos
+ * estáticos de la clase con la url, user y password.
+ */
 public class Db {
     @Getter
     private static final Connection conn;

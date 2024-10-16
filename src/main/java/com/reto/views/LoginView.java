@@ -9,6 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Optional;
 
+/**
+ * Vista de inicio de sesión.
+ * @author Alberto Guzman Moreno
+ */
 public class LoginView extends JFrame {
     private JPanel rootPanel;
     private JLabel appTitle;
@@ -21,6 +25,9 @@ public class LoginView extends JFrame {
     private JCheckBox rememberUser;
     private JPanel buttonsPanel;
 
+    /**
+     * Constructor de la vista de inicio de sesión.
+     */
     public LoginView() {
         UserDAO dao = new UserDAO(Db.getConn());
 
@@ -36,20 +43,29 @@ public class LoginView extends JFrame {
         registerBtn.addActionListener( _ -> registerUser());
     }
 
+    /**
+     * Navegación a la vista de registro de usuario.
+     */
     private void registerUser() {
         RegisterFormView registerForm = new RegisterFormView();
         dispose();
         registerForm.setVisible(true);
     }
 
+    /**
+     * Procesa el inicio de sesión del usuario, en funcion del Optional
+     * que devuelve el dao mostramos mensaje de error si el usuario no
+     * existe o navegamos a la MainView si el user existe.
+     *
+     * @param dao El objeto UserDAO para realizar la autenticación.
+     */
     private void loginProcess(UserDAO dao) {
         String password = new String(passInput.getPassword());
         Optional<User> logged = dao.loginProcess(userInput.getText(), password);
 
         if(logged.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Wrong User Name or Password try again!");
+            JOptionPane.showMessageDialog(this, "Nombre de usuario o contraseña incorrectos / vacios, ¡inténtelo de nuevo!");
         } else {
-            Point location = this.getLocation();
             Session.userSelected = logged.get();
             dispose();
             MainView mainWindow = new MainView();

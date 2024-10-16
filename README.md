@@ -8,6 +8,6 @@
  - DAOs ✅
  - DTOs ✅
 3. Todos:
- - Falta por implementar boton de volver a mainView.
+ - Falta por implementar boton de volver a mainView. ✅
  - Implementar registro de usuario. ✅
- - Implementar añadir peliculas para un usuario.
+ - Implementar añadir peliculas para un usuario. ✅

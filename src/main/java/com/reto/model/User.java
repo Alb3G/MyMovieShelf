@@ -4,6 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Representa un usuario del sistema.
+ *
+ * @author Alberto Guzman Moreno
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

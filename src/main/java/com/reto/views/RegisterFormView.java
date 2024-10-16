@@ -7,6 +7,10 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import javax.swing.*;
 
+/**
+ * Vista del formulario de registro.
+ * @author Alberto Guzman Moreno
+ */
 public class RegisterFormView extends JFrame {
     private JPanel root;
     private JButton registerButton;
@@ -16,6 +20,10 @@ public class RegisterFormView extends JFrame {
     private JButton cancelButton;
     private UserDAO dao = new UserDAO(Db.getConn());
 
+    /**
+     * Constructor de la vista del formulario de registro, gestion de eventos
+     * en botones register y cancel.
+     */
     public RegisterFormView() {
         setContentPane(root);
         setSize(500, 500);
@@ -26,6 +34,9 @@ public class RegisterFormView extends JFrame {
         cancelButton.addActionListener( _ -> backToLogin());
     }
 
+    /**
+     * Registra un nuevo usuario guardándolo en la base de datos.
+     */
     private void registerUser() {
         String pass = new String(passInput.getPassword());
         String pass2 = new String(confirmPassInput.getPassword());
@@ -42,6 +53,9 @@ public class RegisterFormView extends JFrame {
         }
     }
 
+    /**
+     * Vuelve a la vista de inicio de sesión.
+     */
     private void backToLogin() {
         LoginView lw = new LoginView();
         dispose();

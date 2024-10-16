@@ -12,6 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Clase que implementa las operaciones CRUD para la entidad User.
+ * Proporciona métodos para encontrar, guardar, actualizar y eliminar usuarios
+ * en la base de datos. También incluye métodos para encontrar todas las copias de
+ * películas de un usuario y para el proceso de inicio de sesión.
+ * @author Alberto Guzman Moreno
+ */
 public class UserDAO implements DAO<User> {
     private static Connection connection = null;
     private static final String INSERT_USER = "INSERT INTO User (user_name, password) values (?, ?);";
@@ -20,6 +27,11 @@ public class UserDAO implements DAO<User> {
 
     public UserDAO(Connection conn) { connection = conn; }
 
+    /**
+     * Encuentra todos los usuarios en la base de datos.
+     *
+     * @return una lista de todos los usuarios.
+     */
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -38,6 +50,12 @@ public class UserDAO implements DAO<User> {
         return users;
     }
 
+    /**
+     * Encuentra un usuario por su ID.
+     *
+     * @param id el ID del usuario a encontrar.
+     * @return el usuario encontrado, o null si no se encuentra.
+     */
     @Override
     public User findById(Integer id) {
         User user = null;
@@ -57,6 +75,12 @@ public class UserDAO implements DAO<User> {
         return user;
     }
 
+    /**
+     * Guarda un usuario en la base de datos.
+     *
+     * @param user el usuario a guardar.
+     * @return true si el usuario fue guardado exitosamente, false en caso contrario.
+     */
     @Override
     public boolean save(User user) {
         boolean res = false;
@@ -75,6 +99,11 @@ public class UserDAO implements DAO<User> {
         return res;
     }
 
+    /**
+     * Actualiza un usuario en la base de datos.
+     *
+     * @param user el usuario a actualizar.
+     */
     @Override
     public void update(User user) {
         try(var ps = connection.prepareStatement(UPDATE_USER)) {
@@ -87,6 +116,12 @@ public class UserDAO implements DAO<User> {
         }
     }
 
+    /**
+     * Elimina un usuario de la base de datos.
+     *
+     * @param user el usuario a eliminar.
+     * @return true si el usuario fue eliminado exitosamente, false en caso contrario.
+     */
     @Override
     public boolean delete(User user) {
         boolean res = false;
@@ -100,6 +135,11 @@ public class UserDAO implements DAO<User> {
         return res;
     }
 
+    /**
+     * Elimina un usuario de la base de datos por su ID.
+     *
+     * @param id el ID del usuario a eliminar.
+     */
     @Override
     public void deleteById(Integer id) {
         try(var ps = connection.prepareStatement(DELETE_USER)) {
@@ -110,6 +150,12 @@ public class UserDAO implements DAO<User> {
         }
     }
 
+    /**
+     * Encuentra todas las copias de películas de un usuario.
+     *
+     * @param user el usuario cuyas copias de películas se van a encontrar.
+     * @return una lista de todas las copias de películas del usuario.
+     */
     public List<MovieDTO> findAllUserCopies(User user) {
         List<MovieDTO> userMovies = new ArrayList<>();
         try(PreparedStatement ps = connection.prepareStatement("select * from Movie inner join MovieCopy on id = movie_id where user_id = ?;")) {
@@ -135,6 +181,13 @@ public class UserDAO implements DAO<User> {
         return userMovies;
     }
 
+    /**
+     * Procesa el inicio de sesión de un usuario.
+     *
+     * @param userName el nombre de usuario.
+     * @param password la contraseña del usuario.
+     * @return un Optional que contiene el usuario si las credenciales son correctas, o un Optional vacío si no lo son.
+     */
     public Optional<User> loginProcess(String userName, String password) {
         User res = null;
         try(var ps = connection.prepareStatement("Select * from User where user_name = ?;")) {

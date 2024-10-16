@@ -6,6 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Representa una copia de una película.
+ *
+ * @author Alberto Guzman Moreno
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

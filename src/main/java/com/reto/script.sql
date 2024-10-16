@@ -4,7 +4,7 @@ use reto;
 
 CREATE TABLE User(
     id int primary key auto_increment,
-    user_name varchar(100) unique,
+    user_name varchar(100),
     password text
 );
 
@@ -22,8 +22,7 @@ CREATE TABLE MovieCopy(
     movie_id int,
     user_id int,
     movie_condition enum('Excellent', 'Good', 'Bad') not null,
-    platform enum('DVD', 'BluRay', 'VHS') default 'DVD',
-    unique (movie_id, user_id, platform)
+    platform enum('DVD', 'BluRay', 'VHS') default 'DVD'
 );
 
 alter table MovieCopy
@@ -101,4 +100,3 @@ INSERT INTO MovieCopy (movie_id, user_id, movie_condition, platform) VALUES
 (25, 1, 'Bad', 'DVD');
 
 -- drop database reto;
--- select * from Movie inner join MovieCopy on id = movie_id where user_id = 1;

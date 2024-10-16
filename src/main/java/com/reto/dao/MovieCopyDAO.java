@@ -10,14 +10,28 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que maneja las operaciones CRUD para las copias de películas en la base de datos.
+ * @author Alberto Guzman Moreno
+ */
 public class MovieCopyDAO implements DAO<MovieCopy> {
     private static Connection connection = null;
     private static final String INSERT_MOVIE_COPY = "INSERT INTO MovieCopy (movie_id, user_id, movie_condition, platform) values (?,?,?,?);";
     private static final String DELETE_MOVIE_COPY = "DELETE FROM MovieCopy where copy_id = ?;";
     private static final String UPDATE_MOVIE_COPY = "UPDATE MovieCopy set movie_condition = ?, platform = ? where copy_id = ?;";
 
+    /**
+     * Constructor que inicializa la conexión a la base de datos.
+     *
+     * @param conn la conexión a la base de datos.
+     */
     public MovieCopyDAO(Connection conn) { connection = conn; }
 
+    /**
+     * Encuentra todas las copias de películas en la base de datos.
+     *
+     * @return una lista de todas las copias de películas.
+     */
     @Override
     public List<MovieCopy> findAll() {
         List<MovieCopy> copies = new ArrayList<>();
@@ -38,6 +52,12 @@ public class MovieCopyDAO implements DAO<MovieCopy> {
         return copies;
     }
 
+    /**
+     * Encuentra una copia de película por su ID.
+     *
+     * @param id el ID de la copia de película a encontrar.
+     * @return la copia de película encontrada, o null si no se encuentra.
+     */
     @Override
     public MovieCopy findById(Integer id) {
         MovieCopy copy = null;
@@ -59,6 +79,12 @@ public class MovieCopyDAO implements DAO<MovieCopy> {
         return copy;
     }
 
+    /**
+     * Guarda una copia de película en la base de datos.
+     *
+     * @param movieCopy la copia de película a guardar.
+     * @return true si la copia de película fue guardada exitosamente, false en caso contrario.
+     */
     @Override
     public boolean save(MovieCopy movieCopy) {
         boolean res = false;
@@ -79,6 +105,11 @@ public class MovieCopyDAO implements DAO<MovieCopy> {
         return res;
     }
 
+    /**
+     * Actualiza una copia de película en la base de datos.
+     *
+     * @param movieCopy la copia de película a actualizar.
+     */
     @Override
     public void update(MovieCopy movieCopy) {
         try(var ps = connection.prepareStatement(UPDATE_MOVIE_COPY)) {
@@ -91,6 +122,12 @@ public class MovieCopyDAO implements DAO<MovieCopy> {
         }
     }
 
+    /**
+     * Elimina una copia de película de la base de datos.
+     *
+     * @param movieCopy la copia de película a eliminar.
+     * @return true si la copia de película fue eliminada exitosamente, false en caso contrario.
+     */
     @Override
     public boolean delete(MovieCopy movieCopy) {
         boolean res = false;
@@ -104,6 +141,11 @@ public class MovieCopyDAO implements DAO<MovieCopy> {
         return res;
     }
 
+    /**
+     * Elimina una copia de película de la base de datos por su ID.
+     *
+     * @param id el ID de la copia de película a eliminar.
+     */
     @Override
     public void deleteById(Integer id) {
         try(var ps = connection.prepareStatement(DELETE_MOVIE_COPY)) {
@@ -114,6 +156,13 @@ public class MovieCopyDAO implements DAO<MovieCopy> {
         }
     }
 
+    /**
+     * Encuentra una copia específica de una película para un usuario dado y un DTO de película.
+     *
+     * @param user el usuario propietario de la copia de película.
+     * @param dto el DTO de la película.
+     * @return el ID de la copia de película encontrada, o 0 si no se encuentra.
+     */
     public Integer findSpecificCopy(User user, MovieDTO dto) {
         int movieCopyId = 0;
         try(PreparedStatement ps = connection.prepareStatement("select copy_id from MovieCopy inner join Movie on id = movie_id where movie_id = ? and user_id = ? and movie_condition = ? and platform = ?;")) {

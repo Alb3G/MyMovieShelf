@@ -6,14 +6,27 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO para la entidad Movie.
+ */
 public class MovieDAO implements DAO<Movie> {
     private static Connection connection = null;
     private static final String INSERT_MOVIE = "INSERT INTO Movie (title,genre,release_year,description,director) values (?,?,?,?,?);";
     private static final String DELETE_MOVIE = "DELETE FROM Movie where id = ?;";
     private static final String UPDATE_MOVIE = "UPDATE Movie set title = ?, genre = ?, release_year = ?, description = ?, director = ? where id = ?;";
 
+    /**
+     * Constructor que inicializa la conexión a la base de datos.
+     *
+     * @param conn la conexión a la base de datos.
+     */
     public MovieDAO(Connection conn) { connection = conn; }
 
+    /**
+     * Encuentra todas las películas en la base de datos.
+     *
+     * @return una lista de todas las películas.
+     */
     @Override
     public List<Movie> findAll() {
         List<Movie> movies = new ArrayList<>();
@@ -35,6 +48,12 @@ public class MovieDAO implements DAO<Movie> {
         return movies;
     }
 
+    /**
+     * Encuentra una película por su ID.
+     *
+     * @param id el ID de la película a encontrar.
+     * @return la película encontrada, o null si no se encuentra.
+     */
     @Override
     public Movie findById(Integer id) {
         Movie movie = null;
@@ -57,6 +76,12 @@ public class MovieDAO implements DAO<Movie> {
         return movie;
     }
 
+    /**
+     * Guarda una película en la base de datos.
+     *
+     * @param movie la película a guardar.
+     * @return true si la película fue guardada exitosamente, false en caso contrario.
+     */
     @Override
     public boolean save(Movie movie) {
         boolean res = false;
@@ -78,6 +103,11 @@ public class MovieDAO implements DAO<Movie> {
         return res;
     }
 
+    /**
+     * Actualiza una película en la base de datos.
+     *
+     * @param movie la película a actualizar.
+     */
     @Override
     public void update(Movie movie) {
         try(var ps = connection.prepareStatement(UPDATE_MOVIE)) {
@@ -93,6 +123,12 @@ public class MovieDAO implements DAO<Movie> {
         }
     }
 
+    /**
+     * Elimina una película de la base de datos.
+     *
+     * @param movie la película a eliminar.
+     * @return true si la película fue eliminada exitosamente, false en caso contrario.
+     */
     @Override
     public boolean delete(Movie movie) {
         boolean res = false;
@@ -106,6 +142,11 @@ public class MovieDAO implements DAO<Movie> {
         return res;
     }
 
+    /**
+     * Elimina una película de la base de datos por su ID.
+     *
+     * @param id el ID de la película a eliminar.
+     */
     @Override
     public void deleteById(Integer id) {
         try(var ps = connection.prepareStatement(DELETE_MOVIE)) {
